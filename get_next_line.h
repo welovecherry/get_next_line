@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:36:35 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/14 20:10:07 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:14:16 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 // allowed header ??
 #include <stdlib.h> // ssize_t, malloc, free
 #include <unistd.h> // for read() function
-#define BUFF_SIZE 1
+#define BUFF_SIZE 10
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);

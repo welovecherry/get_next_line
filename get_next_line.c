@@ -6,30 +6,14 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:54:39 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/14 23:00:16 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:15:56 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//int	get_line_len(int fd)
-//{
-//	int		total_len;
-//	int		read_len;
-//	char	buffer[BUFF_SIZE + 1];
-
-//	total_len = 0;
-//	while (1)
-//	{
-//		read_len = read(fd, buffer, BUFF_SIZE);
-//		if (*buffer == '\n' ||read_len == 0)
-//			break ;
-//		else
-//			total_len++;
-//	}
-//	return (total_len);
-//}
-
+// BUFFER_SIZE = 10일때 왜 안되는지 디버그 해보기
+// 
 char	*get_next_line(int fd)
 {
 	ssize_t	nbytes;
@@ -71,18 +55,19 @@ int	main(void)
 		perror("error opening");
 		return (1);
 	}
+	res = get_next_line(fd);
+	printf("%s", res);
+	res = get_next_line(fd);
+	printf("%s", res);
+	res = get_next_line(fd);
+	printf("%s", res);
+	res = get_next_line(fd);
+	printf("%s", res);
 	//res = get_next_line(fd);
-	//printf("%s", res);
-	//res = get_next_line(fd);
-	//printf("%s", res);
-	//res = get_next_line(fd);
-	//printf("%s", res);
-	//res = get_next_line(fd);
-	//printf("%s", res);
-	while (res != 0)
-	{
-		res = get_next_line(fd);
-		printf("%s", res);
-	}	
+	//while (res != 0)
+	//{
+	//	res = get_next_line(fd);
+	//	printf("%s", res);
+	//}	
 	return (0);
 }
