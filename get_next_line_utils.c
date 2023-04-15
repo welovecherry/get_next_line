@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:36:32 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/15 17:31:56 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/15 22:25:11 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*ft_strchr(const char *s, int c)
+int	ft_strchr_i(const char *s, int c)
 {
 	unsigned char	*ptr;
 	size_t			i;
@@ -32,12 +32,12 @@ char	*ft_strchr(const char *s, int c)
 	while (ptr[i] != '\0')
 	{
 		if (ptr[i] == (unsigned char)c)
-			return ((char *)&ptr[i]);
+			return (i);
 		i++;
 	}
 	if (ptr[i] == (unsigned char)c)
-		return ((char *)&ptr[i]);
-	return (0);
+		return (i);
+	return (-1);
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
@@ -104,7 +104,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (return_ptr);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strndup(const char *s1, int	n)
 {
 	size_t	len;
 	size_t	i;
@@ -117,7 +117,7 @@ char	*ft_strdup(const char *s1)
 	if (!dup_ptr)
 		return (0);
 	i = 0;
-	while (i < len)
+	while (i < len && i < n)
 	{
 		dup_ptr[i] = copy_s1[i];
 		i++;
@@ -125,6 +125,7 @@ char	*ft_strdup(const char *s1)
 	dup_ptr[i] = '\0';
 	return (dup_ptr);
 }
+
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	size_t			idx;
