@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:36:32 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/14 20:10:56 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:31:56 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,24 @@ size_t	ft_strlen(const char *s)
 	while (s[len] != 0)
 		len++;
 	return (len);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	unsigned char	*ptr;
+	size_t			i;
+
+	ptr = (unsigned char *)s;
+	i = 0;
+	while (ptr[i] != '\0')
+	{
+		if (ptr[i] == (unsigned char)c)
+			return ((char *)&ptr[i]);
+		i++;
+	}
+	if (ptr[i] == (unsigned char)c)
+		return ((char *)&ptr[i]);
+	return (0);
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
@@ -36,7 +54,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		return (src_len);
 	}
 	i = 0;
-	while (i < dstsize - 1 && src[i]!= '\n')
+	while (i < dstsize - 1 && src[i]!= '\0')
 	{
 		dst[i] = src[i];
 		i++;
@@ -107,6 +125,49 @@ char	*ft_strdup(const char *s1)
 	dup_ptr[i] = '\0';
 	return (dup_ptr);
 }
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t			idx;
+	unsigned char	*ptr_dst;
+	unsigned char	*ptr_src;
+
+	if (dst == 0 && src == 0)
+		return (dst);
+	ptr_dst = (unsigned char *)dst;
+	ptr_src = (unsigned char *)src;
+	idx = 0;
+	while (idx < n)
+	{
+		ptr_dst[idx] = ptr_src[idx];
+		idx++;
+	}
+	return (dst);
+}
+
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	int				idx;
+	unsigned char	*ptr_dst;
+	unsigned char	*ptr_src;
+
+	if (dst == 0 && src == 0)
+		return (dst);
+	ptr_dst = (unsigned char *)dst;
+	ptr_src = (unsigned char *)src;
+	if (dst < src)
+		ft_memcpy(ptr_dst, ptr_src, len);
+	else
+	{
+		idx = len - 1;
+		while (idx >= 0)
+		{
+			ptr_dst[idx] = ptr_src[idx];
+			idx--;
+		}
+	}
+	return (dst);
+}
+
 /*
 int main(void) {
 	char			dest1[30] = "abcde";
