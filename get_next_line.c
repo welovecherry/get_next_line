@@ -6,66 +6,77 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:54:39 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/15 22:46:28 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:22:46 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//char	*get_next_line(int fd)
+//char	*test(char *remain_str)
 //{
-//	ssize_t	nbytes;
-//	char	buffer[BUFF_SIZE + 1];
-//	char	*temp_str;
-//	char	*joined_str;
+//	char		*temp_str;
+	
 
-//	if (fd < 0 || fd == 1 || fd == 2)
-//		return (NULL);
-//	nbytes = read(fd, buffer, BUFF_SIZE);
-//	buffer[nbytes] = '\0';
-//	temp_str = ft_strdup(buffer);
-//	if (ft_strchr(temp_str, '\n') == NULL) // didnt find \n
-//	{
-//		nbytes = read(fd, buffer, BUFF_SIZE);
-//		joined_str = ft_strjoin(temp_str, buffer);
-//		printf("joined:%s\n", joined_str);
-//	}
-//	else // found \n
-//	{
-//		//printf("%s\n", ft_strchr(temp_str, '\n'));
-//		//joined_str = 
-//	}
 //	return (joined_str);
+//}
+
+//void	test(int read_bytes, int flag, char *remain_str, char *buff)
+//{
+//	if (read_bytes == 0)
+//	{
+//		flag = 1;
+//		return (remain_str);
+//	}
+//	if (*remain_str == 0)
+//		remain_str = ft_str_n_dup(buff, read_bytes);
+//	else
+//		remain_str = ft_strjoin(remain_str, buff);
+	
 //}
 
 char	*get_next_line(int fd)
 {
-	ssize_t	nbytes;
-	char	buffer[BUFF_SIZE + 1];
-	char	*temp_str;
-	char	*joined_str;
-	int		idx_newline;
 	static char	*remain_str;
+	static char	buff[BUFF_SIZE + 1];
+	char		*joined_str;
+	int			read_bytes;
+	int			idx_nl;
+	char		*temp_str;
+	static int	flag;
 
-	if (fd < 0 || fd == 1 || fd == 2)
-		return (NULL);
-	nbytes = read(fd, buffer, BUFF_SIZE);
-	buffer[nbytes] = '\0';
-	temp_str = ft_strndup(buffer, ft_strlen(buffer)); // 0123456
-	idx_newline = ft_strchr_i(temp_str, '\n');
-	if (idx_newline == -1) // not found \n in temp_str
+	if (fd < 0 || fd == 1 || fd == 2 || flag == 1)
+		return (0);
+	while (1)
 	{
-		nbytes = read(fd, buffer, BUFF_SIZE);
-		//joined_str = ft_strjoin(temp_str, buffer);
-		if (BUFF_SIZE == nbytes)
-			joined_str = ft_strjoin(temp_str, buffer);
-		else
+		read_bytes = read(fd, buff, BUFF_SIZE);
+		buff[read_bytes] = '\0';
+		if (remain_str == 0)
+			remain_str = (char *)ft_calloc(read_bytes, sizeof(char));
+		idx_nl = ft_strchr_idx(buff, '\n');
+		if (idx_nl >= 0) // met newline || met EOF
+		{
+			temp_str = ft_str_n_dup(buff, idx_nl + 1);
 			joined_str = ft_strjoin(remain_str, temp_str);
-	}
-	else // found \n in temp_str
-	{
-		joined_str = ft_strndup(temp_str, idx_newline + 1);
-		remain_str = ft_strndup(temp_str + ft_strlen(joined_str) , nbytes - ft_strlen(joined_str) );
+			//remain_str = ft_str_n_dup(buff + idx_nl + 1, read_bytes - idx_nl);
+			if (*remain_str == 0)
+				remain_str = ft_str_n_dup(buff, read_bytes);
+			else
+				remain_str = ft_strjoin(remain_str, buff);
+			break ;
+		}
+		else // didnt find newline
+		{
+			if (read_bytes == 0)
+			{
+				flag = 1;
+				return (remain_str);
+			}
+			if (*remain_str == 0)
+				remain_str = ft_str_n_dup(buff, read_bytes);
+			else
+				remain_str = ft_strjoin(remain_str, buff);
+			//test(read_bytes, flag, remain_str, buff);
+		}
 	}
 	return (joined_str);
 }
@@ -74,15 +85,19 @@ int	main(void)
 {
 	int		fd;
 	char	*res;
+	int		idx;
 
 	fd = open("example.txt", O_RDONLY);
+	idx = 0;
 	res = get_next_line(fd);
-	printf("\n\n%s", res);
-	res = get_next_line(fd);
-	printf("%s", res);
-	//res = get_next_line(fd);
-	//printf("%s", res);
-	//res = get_next_line(fd);
-	//printf("%s", res);
+	idx++;
+	while (res != 0)
+	{
+		//if (idx == 9)
+		//	printf("hihi\n");
+		res = get_next_line(fd);
+		printf("%s", res);
+		idx++;
+	}
 	return (0);
 }

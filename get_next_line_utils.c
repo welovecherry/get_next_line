@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:36:32 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/15 22:25:11 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:27:03 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,23 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-int	ft_strchr_i(const char *s, int c)
+int	ft_strchr_idx(const char *s, int c)
 {
-	unsigned char	*ptr;
-	size_t			i;
+	unsigned char	*un_s;
+	unsigned char	un_c;
+	size_t			idx;
 
-	ptr = (unsigned char *)s;
-	i = 0;
-	while (ptr[i] != '\0')
+	un_s = (unsigned char *)s;
+	un_c = (unsigned char)c;
+	idx = 0;
+	while (un_s[idx] != '\0')
 	{
-		if (ptr[i] == (unsigned char)c)
-			return (i);
-		i++;
+		if (un_s[idx] == un_c)
+			return (idx);
+		idx++;
 	}
-	if (ptr[i] == (unsigned char)c)
-		return (i);
+	if (un_s[idx] == un_c)
+		return (idx);
 	return (-1);
 }
 
@@ -54,7 +56,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		return (src_len);
 	}
 	i = 0;
-	while (i < dstsize - 1 && src[i]!= '\0')
+	while (i < dstsize - 1 && src[i] != '\0')
 	{
 		dst[i] = src[i];
 		i++;
@@ -92,8 +94,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	s2_len;
 	char	*return_ptr;
 
-	if (s1 == 0)
-		return (0);
+	//if (s1 == 0)
+	//	return (0);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	return_ptr = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
@@ -104,7 +106,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (return_ptr);
 }
 
-char	*ft_strndup(const char *s1, int	n)
+char	*ft_str_n_dup(const char *s1, int n)
 {
 	size_t	len;
 	size_t	i;
@@ -169,6 +171,31 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	return (dst);
 }
 
+void	ft_bzero(void *s, size_t n)
+{
+	size_t			idx;
+	unsigned char	*ptr;
+
+	ptr = (unsigned char *)s;
+	idx = 0;
+	while (idx < n)
+	{
+		ptr[idx] = 0;
+		s++;
+		idx++;
+	}
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
+
+	ptr = malloc(size * count);
+	if (!ptr)
+		return (0);
+	ft_bzero(ptr, size * count);
+	return (ptr);
+}
 /*
 int main(void) {
 	char			dest1[30] = "abcde";

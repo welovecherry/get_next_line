@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:36:35 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/15 21:57:07 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:37:30 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 // allowed header ??
 #include <stdlib.h> // ssize_t, malloc, free
 #include <unistd.h> // for read() function
-#define BUFF_SIZE 7
+#define BUFF_SIZE 5
 
 //	 ㅇㅏㄴ쓰는 함함수  삭삭제제해해라라
 char	*get_next_line(int fd);
@@ -30,10 +30,14 @@ size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strndup(const char *s1, int	n);
+//char	*ft_strndup(const char *s1, int	n);
 //char	*ft_strchr(const char *s, int c);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
-int		ft_strchr_i(const char *s, int c);
+int		ft_strchr_idx(const char *s, int c);
+char	*ft_str_n_dup(const char *s1, int n);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t count, size_t size);
+
 
 #endif
