@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:36:32 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/17 14:27:03 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/21 22:25:21 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,22 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (dst_len + src_len);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*gnl_strjoin_free(char *s1, char const *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
 	char	*return_ptr;
 
-	//if (s1 == 0)
-	//	return (0);
+	if (s1 == 0)
+		return (0);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
-	return_ptr = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+	return_ptr = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1)); // 200, 300, 400
 	if (!return_ptr)
 		return (0);
-	strlcpy(return_ptr, s1, s1_len + 1);
-	strlcat(return_ptr, s2, s1_len + s2_len + 1);
+	ft_strlcpy(return_ptr, s1, s1_len + 1); // 300, 200
+	ft_strlcat(return_ptr, s2, s1_len + s2_len + 1); // 300, buff address,
+	free(s1); // 100, 200, 300
 	return (return_ptr);
 }
 
@@ -115,7 +116,7 @@ char	*ft_str_n_dup(const char *s1, int n)
 
 	copy_s1 = (char *)s1;
 	len = ft_strlen(copy_s1);
-	dup_ptr = (char *)malloc(sizeof(char) * (len + 1));
+	dup_ptr = (char *)malloc(sizeof(char) * (len + 1)); // 100, 500
 	if (!dup_ptr)
 		return (0);
 	i = 0;
@@ -171,31 +172,31 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	return (dst);
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	size_t			idx;
-	unsigned char	*ptr;
+//void	ft_bzero(void *s, size_t n)
+//{
+//	size_t			idx;
+//	unsigned char	*ptr;
 
-	ptr = (unsigned char *)s;
-	idx = 0;
-	while (idx < n)
-	{
-		ptr[idx] = 0;
-		s++;
-		idx++;
-	}
-}
+//	ptr = (unsigned char *)s;
+//	idx = 0;
+//	while (idx < n)
+//	{
+//		ptr[idx] = 0;
+//		s++;
+//		idx++;
+//	}
+//}
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
+//void	*ft_calloc(size_t count, size_t size)
+//{
+//	void	*ptr;
 
-	ptr = malloc(size * count);
-	if (!ptr)
-		return (0);
-	ft_bzero(ptr, size * count);
-	return (ptr);
-}
+//	ptr = malloc(size * count);
+//	if (!ptr)
+//		return (0);
+//	ft_bzero(ptr, size * count);
+//	return (ptr);
+//}
 /*
 int main(void) {
 	char			dest1[30] = "abcde";
