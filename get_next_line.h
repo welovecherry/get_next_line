@@ -6,17 +6,19 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:36:35 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/22 18:18:50 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/24 23:02:35 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-// allowed header ??
+// allowed header ?? 123123123123123123123
 # include <stdlib.h> // ssize_t, malloc, free
 # include <unistd.h> // for read() function
-# define BUFF_SIZE 1
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 100
+#endif
 
 char	*get_next_line(int fd);
 char	*read_all_concatenate_str(int fd, int *flag_newline);
