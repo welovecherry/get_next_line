@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:36:32 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/22 17:56:42 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:54:34  by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,43 +68,27 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (dst_len + src_len);
 }
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	size_t			idx;
-	unsigned char	*ptr_dst;
-	unsigned char	*ptr_src;
-
-	if (dst == 0 && src == 0)
-		return (dst);
-	ptr_dst = (unsigned char *)dst;
-	ptr_src = (unsigned char *)src;
-	idx = 0;
-	while (idx < n)
-	{
-		ptr_dst[idx] = ptr_src[idx];
-		idx++;
-	}
-	return (dst);
-}
-
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	int				idx;
-	unsigned char	*ptr_dst;
-	unsigned char	*ptr_src;
+	int	idx;
 
 	if (dst == 0 && src == 0)
 		return (dst);
-	ptr_dst = (unsigned char *)dst;
-	ptr_src = (unsigned char *)src;
 	if (dst < src)
-		ft_memcpy(ptr_dst, ptr_src, len);
+	{
+		idx = 0;
+		while (idx < (int)len)
+		{
+			((unsigned char *)dst)[idx] = ((unsigned char *)src)[idx];
+			idx++;
+		}
+	}
 	else
 	{
 		idx = len - 1;
 		while (idx >= 0)
 		{
-			ptr_dst[idx] = ptr_src[idx];
+			((unsigned char *)dst)[idx] = ((unsigned char *)src)[idx];
 			idx--;
 		}
 	}
