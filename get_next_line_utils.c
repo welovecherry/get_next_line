@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 13:36:32 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/04/28 14:54:34  by jungmiho         ###   ########.fr       */
+/*   Created: 2023/04/29 15:01:25 by jungmiho          #+#    #+#             */
+/*   Updated: 2023/05/05 21:41:04 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,4 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	}
 	dst[dst_len + i] = '\0';
 	return (dst_len + src_len);
-}
-
-void	*ft_memmove(void *dst, const void *src, size_t len)
-{
-	int	idx;
-
-	if (dst == 0 && src == 0)
-		return (dst);
-	if (dst < src)
-	{
-		idx = 0;
-		while (idx < (int)len)
-		{
-			((unsigned char *)dst)[idx] = ((unsigned char *)src)[idx];
-			idx++;
-		}
-	}
-	else
-	{
-		idx = len - 1;
-		while (idx >= 0)
-		{
-			((unsigned char *)dst)[idx] = ((unsigned char *)src)[idx];
-			idx--;
-		}
-	}
-	return (dst);
 }
