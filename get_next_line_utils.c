@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:01:25 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/05/05 21:41:04 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/05/06 18:06:27 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,24 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	}
 	dst[dst_len + i] = '\0';
 	return (dst_len + src_len);
+}
+
+int	gnl_strchr_idx(const char *s, int c)
+{
+	unsigned char	*un_s;
+	unsigned char	un_c;
+	size_t			idx;
+
+	un_s = (unsigned char *)s;
+	un_c = (unsigned char)c;
+	idx = 0;
+	while (un_s[idx] != '\0')
+	{
+		if (un_s[idx] == un_c)
+			return (idx);
+		idx++;
+	}
+	if (un_s[idx] == un_c)
+		return (idx);
+	return (-1);
 }

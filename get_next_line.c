@@ -6,33 +6,11 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:54:39 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/05/06 17:44:25 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/05/06 18:06:38 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h> // 123123123123123
-
 #include "get_next_line.h"
-
-int	gnl_strchr_idx(const char *s, int c)
-{
-	unsigned char	*un_s;
-	unsigned char	un_c;
-	size_t			idx;
-
-	un_s = (unsigned char *)s;
-	un_c = (unsigned char)c;
-	idx = 0;
-	while (un_s[idx] != '\0')
-	{
-		if (un_s[idx] == un_c)
-			return (idx);
-		idx++;
-	}
-	if (un_s[idx] == un_c)
-		return (idx);
-	return (-1);
-}
 
 char	*gnl_strjoin_free(char *s1, char const *s2)
 {
@@ -88,8 +66,6 @@ char	*read_all_concatenate_str(int fd, int *flag)
 	if (read_bytes == -1 || read_bytes == 0)
 		return (0);
 	buff[read_bytes] = '\0';
-	if (*buff == '\0')
-		return (0);
 	str = gnl_str_n_dup(buff, read_bytes);
 	while (read_bytes != 0)
 	{
@@ -103,6 +79,17 @@ char	*read_all_concatenate_str(int fd, int *flag)
 	}
 	*flag = 1;
 	return (str);
+}
+
+int	is_null(char *str, int *flag)
+{
+	*flag = 1;
+	if (gnl_strchr_idx(str, '\0') == 0)
+	{
+		free(str);
+		return (1);
+	}
+	return (0);
 }
 
 char	*get_next_line(int fd)
@@ -124,17 +111,10 @@ char	*get_next_line(int fd)
 		free(str);
 		str = new_str;
 	}
+	else if (is_null(str, &flag[2]) == 1)
+		return (0);
 	else
-	{
-		flag[2] = 1;
-		if (gnl_strchr_idx(str, '\0') == 0)
-		{
-			free(str);
-			return (0);
-		}
-		else
-			return (str);
-	}
+		return (str);
 	return (return_str);
 }
 
