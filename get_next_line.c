@@ -6,11 +6,12 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:54:39 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/05/05 22:20:59 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/05/06 17:44:25 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h> // 123123123123123
+
 #include "get_next_line.h"
 
 int	gnl_strchr_idx(const char *s, int c)
@@ -19,9 +20,6 @@ int	gnl_strchr_idx(const char *s, int c)
 	unsigned char	un_c;
 	size_t			idx;
 
-
-	//if (*s == '\0' && ft_strlen(s) == 0)
-	//	return (-1);
 	un_s = (unsigned char *)s;
 	un_c = (unsigned char)c;
 	idx = 0;
@@ -80,14 +78,14 @@ char	*gnl_str_n_dup(const char *s1, int n)
 	return (dup_ptr);
 }
 
-char	*read_all_concatenate_str(int fd, int *is_read)
+char	*read_all_concatenate_str(int fd, int *flag)
 {
 	int		read_bytes;
 	char	*str;
 	char	buff[BUFFER_SIZE + 1];
 
 	read_bytes = read(fd, buff, BUFFER_SIZE);
-	if (read_bytes == -1 || (read_bytes == 0 && *is_read == 0))
+	if (read_bytes == -1 || read_bytes == 0)
 		return (0);
 	buff[read_bytes] = '\0';
 	if (*buff == '\0')
@@ -103,7 +101,7 @@ char	*read_all_concatenate_str(int fd, int *is_read)
 		buff[read_bytes] = '\0';
 		str = gnl_strjoin_free(str, buff);
 	}
-	*is_read = 1;
+	*flag = 1;
 	return (str);
 }
 
@@ -111,38 +109,28 @@ char	*get_next_line(int fd)
 {
 	static char	*str;
 	char		*new_str;
-	static int	flag[4];
+	static int	flag[3];
 	char		*return_str;
-	static int	is_met_null;
-	static int	is_read;
 
-	if (is_read == 0)
-		str = read_all_concatenate_str(fd, &is_read);
-	if (fd < 0 || fd == 1 || fd == 2) // fd can be changed 
-	if (str == 0)
+	if (flag[0] == 0)
+		str = read_all_concatenate_str(fd, &flag[0]);
+	if (fd < 0 || str == 0 || flag[2] == 1)
 		return (0);
-	if (is_met_null == 1)
-		return (NULL);
 	flag[1] = gnl_strchr_idx(str, '\n');
 	if (flag[1] >= 0)
 	{
-		// ㄱㅐ해ㅇ으로 끝끝나나면  개개행행을 써써야야한한다다.
 		return_str = gnl_str_n_dup(str, flag[1] + 1);
-		if (return_str == 0)
-			return (0);
-		// 어떤 상황에서 new_str을 안해도 되나?
-		
 		new_str = gnl_str_n_dup(str + flag[1] + 1, ft_strlen(str) - flag[1]);
 		free(str);
 		str = new_str;
 	}
-	else // no newline
+	else
 	{
-		is_met_null = 1;
+		flag[2] = 1;
 		if (gnl_strchr_idx(str, '\0') == 0)
 		{
 			free(str);
-			return (NULL);
+			return (0);
 		}
 		else
 			return (str);
@@ -159,13 +147,6 @@ char	*get_next_line(int fd)
 //	int		idx;
 
 //	fd = open("example.txt", O_RDONLY);
-//	//idx = 0;
-//	//while (idx < 4)
-//	//{
-//	//	res[idx] = get_next_line(fd);
-//	//	printf("%s", res[idx]);
-//	//	idx++;
-//	//}
 //	idx = 0;
 //	res[idx] = get_next_line(fd);
 //	printf("%s", res[idx]);
